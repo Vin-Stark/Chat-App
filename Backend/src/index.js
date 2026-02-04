@@ -5,19 +5,25 @@ import messageRoutes from "./routes/message.route.js";
 import dotenv from "dotenv";
 import { connectDB } from "./lib/db.js";
 import cookeParser from "cookie-parser";
+import cors from "cors";
 
 
 
-dotenv.config();
 
-const app = express();
+dotenv.config(); // Load environment variables from .env file
 
-app.use(express.json());
-app.use(cookeParser());
+const app = express(); // Create an Express application
 
-const PORT = process.env.PORT;
+app.use(express.json()); // Middleware to parse JSON request bodies
+app.use(cookeParser()); // Middleware to parse cookies
+app.use(cors({
+    origin: "http://localhost:5173", // Allow requests from this origin
+    credentials: true, // Allow cookies to be sent with requests
+}))
 
-app.use("/api/auth", authRoutes);
+const PORT = process.env.PORT; 
+
+app.use("/api/auth", authRoutes); 
 app.use("/api/message", messageRoutes);
 
 app.listen(PORT, () => {

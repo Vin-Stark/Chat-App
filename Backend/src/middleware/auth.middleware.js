@@ -27,4 +27,4 @@ export const protect = async (req, res, next) => {
     console.log(JWT_SECRET);
     return res.status(500).json({message: 'Server error'});
    }
-};
+}; 
